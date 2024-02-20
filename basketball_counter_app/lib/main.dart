@@ -1,4 +1,5 @@
 import 'package:basketball_counter_app/cubit/counter_cubit.dart';
+import 'package:basketball_counter_app/cubit/counter_stste.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,7 +14,7 @@ class pointsCounter extends StatelessWidget {
   Widget build(BuildContext context) {
     //BlocProvider create bloc all other ui components will access cubit
     return BlocProvider(
-      create:(context)=>CounterCubit(),
+      create: (context) => CounterCubit(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: HomePage(),
@@ -21,187 +22,201 @@ class pointsCounter extends StatelessWidget {
     );
   }
 }
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
 
+class HomePage extends StatelessWidget {
+   HomePage({Key? key}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer(builder: (context,state){
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.orange,
-          title: const Text('Points Counter'),
-        ),
-        body: Column(
-          children: [
-            const SizedBox(
-              height: 32,
+    return BlocConsumer<CounterCubit,CounterState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.orange,
+              title: const Text('Points Counter'),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            body: Column(
               children: [
-                Column(
+                const SizedBox(
+                  height: 32,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Text(
-                      'Team E',
-                      style: TextStyle(
-                        fontSize: 42,
-                      ),
-                    ),
-                    const Text(
-                      '0',
-                      style: TextStyle(
-                        fontSize: 200,
-                      ),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.all(8),
-                        backgroundColor: Colors.orange,
-                        minimumSize: const Size(150, 50),
-                      ),
-                      onPressed: () {},
-                      child: const Text(
-                        'Add 1 Point ',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
+                    Column(
+                      children: [
+                        const Text(
+                          'Team E',
+                          style: TextStyle(
+                            fontSize: 42,
+                          ),
                         ),
-                      ),
+                         Text(
+                          '${BlocProvider.of<CounterCubit>(context).teamAPoints}',
+                          style: const TextStyle(
+                            fontSize: 200,
+                          ),
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.all(8),
+                            backgroundColor: Colors.orange,
+                            minimumSize: const Size(150, 50),
+                          ),
+                          onPressed: () {
+                            BlocProvider.of<CounterCubit>(context).TeamIncrement(team: 'A', buttonNumber: 1);
+                          },
+                          child: const Text(
+                            'Add 1 Point ',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.orange,
+                            minimumSize: const Size(150, 50),
+                          ),
+                          onPressed: () {
+                            BlocProvider.of<CounterCubit>(context).TeamIncrement(team: 'A', buttonNumber: 2);
+                          },
+                          child: const Text(
+                            'Add 2 Point',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.orange,
+                            minimumSize: const Size(150, 50),
+                          ),
+                          onPressed: () {
+                            BlocProvider.of<CounterCubit>(context).TeamIncrement(team: 'A', buttonNumber: 3);
+                          },
+                          child: const Text(
+                            'Add 3 Point ',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(
-                      height: 16,
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange,
-                        minimumSize: const Size(150, 50),
+                      height: 420,
+                      child: VerticalDivider(
+                        color: Colors.grey,
+                        thickness: 1,
                       ),
-                      onPressed: () {},
-                      child: const Text(
-                        'Add 2 Point',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
+                    ),
+                    Column(
+                      children: [
+                        const Text(
+                          'Team B',
+                          style: TextStyle(
+                            fontSize: 42,
+                          ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange,
-                        minimumSize: const Size(150, 50),
-                      ),
-                      onPressed: () {},
-                      child: const Text(
-                        'Add 3 Point ',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
+                         Text(
+                          '${BlocProvider.of<CounterCubit>(context).teamBPoints}',
+                          style: TextStyle(
+                            fontSize: 200,
+                          ),
                         ),
-                      ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.all(8),
+                            backgroundColor: Colors.orange,
+                            minimumSize: const Size(150, 50),
+                          ),
+                          onPressed: () {
+                            BlocProvider.of<CounterCubit>(context).TeamIncrement(team: 'B', buttonNumber: 1);
+                          },
+                          child: const Text(
+                            'Add 1 Point ',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.orange,
+                            minimumSize: const Size(150, 50),
+                          ),
+                          onPressed: () {
+                            BlocProvider.of<CounterCubit>(context).TeamIncrement(team: 'B', buttonNumber: 2);
+                          },
+                          child: const Text(
+                            'Add 2 Point ',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.orange,
+                            minimumSize: const Size(150, 50),
+                          ),
+                          onPressed: () {
+                            BlocProvider.of<CounterCubit>(context).TeamIncrement(team: 'B', buttonNumber: 3);
+                          },
+                          child: const Text(
+                            'Add 3 Point ',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 420,
-                  child: VerticalDivider(
-                    color: Colors.grey,
-                    thickness: 1,
+                const Spacer(),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.all(8),
+                    backgroundColor: Colors.orange,
+                    minimumSize: const Size(150, 50),
+                  ),
+                  onPressed: () {},
+                  child: const Text(
+                    'Add 1 Point ',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
-                Column(
-                  children: [
-                    const Text(
-                      'Team B',
-                      style: TextStyle(
-                        fontSize: 42,
-                      ),
-                    ),
-                    const Text(
-                      '0',
-                      style: TextStyle(
-                        fontSize: 200,
-                      ),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.all(8),
-                        backgroundColor: Colors.orange,
-                        minimumSize: const Size(150, 50),
-                      ),
-                      onPressed: () {},
-                      child: const Text(
-                        'Add 1 Point ',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange,
-                        minimumSize: const Size(150, 50),
-                      ),
-                      onPressed: () {},
-                      child: const Text(
-                        'Add 2 Point ',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange,
-                        minimumSize: const Size(150, 50),
-                      ),
-                      onPressed: () {},
-                      child: const Text(
-                        'Add 3 Point ',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                const Spacer(),
               ],
             ),
-            const Spacer(),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.all(8),
-                backgroundColor: Colors.orange,
-                minimumSize: const Size(150, 50),
-              ),
-              onPressed: () {},
-              child: const Text(
-                'Add 1 Point ',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            const Spacer(),
-          ],
-        ),
-      );
-  
-    }, listener: (context,state){});
-    
-}
-    
+          );
+        },
+        listener: (context, state) {
+         
+        });
+  }
 }
